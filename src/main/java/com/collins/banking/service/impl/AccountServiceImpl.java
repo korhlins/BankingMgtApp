@@ -2,6 +2,7 @@ package com.collins.banking.service.impl;
 
 import com.collins.banking.Dto.AccountDto;
 import com.collins.banking.entity.Account;
+import com.collins.banking.exceptions.AccountException;
 import com.collins.banking.mapper.AccountMapper;
 import com.collins.banking.repository.AccountRepository;
 import com.collins.banking.service.AccountService;
@@ -37,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto getAccountById(Long id){
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(()-> new RuntimeException("Account does not exit"));
+                .orElseThrow(()-> new AccountException("Account does not exit"));
         return AccountMapper.mapToAccountDto(account);
     }
 
@@ -55,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
         AccountDto accountDto = getAccountById(id);
 
         if(accountDto.balance() < amount){
-            throw new RuntimeException("Insufficient amount");
+            throw new AccountException("Insufficient amount");
         };
         double total = accountDto.balance() - amount;
         AccountDto accountDto1 = new AccountDto(accountDto.id(), accountDto.accountName(), total);
