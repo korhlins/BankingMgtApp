@@ -1,6 +1,7 @@
 package com.collins.banking.service;
 
 import com.collins.banking.Dto.AccountDto;
+import com.collins.banking.Dto.TransactionDto;
 import com.collins.banking.Dto.TransferFundsDto;
 import com.collins.banking.entity.Account;
 
@@ -21,4 +22,6 @@ public interface AccountService {
     void deleteById(Long id);
 
     void transferFunds(TransferFundsDto transferFundsDto);
+
+    List<TransactionDto> getAccountTransaction(Long accountId);
 }

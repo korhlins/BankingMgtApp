@@ -1,7 +1,9 @@
 package com.collins.banking.controller;
 
 import com.collins.banking.Dto.AccountDto;
+import com.collins.banking.Dto.TransactionDto;
 import com.collins.banking.Dto.TransferFundsDto;
+import com.collins.banking.entity.Transaction;
 import com.collins.banking.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,5 +66,11 @@ public class AccountController {
     public ResponseEntity<String> transferFunds(@RequestBody TransferFundsDto transferFundsDto){
         accountService.transferFunds(transferFundsDto);
         return ResponseEntity.ok("Transfer Successful");
+    }
+
+    @GetMapping("/{id}/transaction")
+    public ResponseEntity<List<TransactionDto>> transactionList(@PathVariable(name = "id") Long accountId){
+        List<TransactionDto> transactionDto = accountService.getAccountTransaction(accountId);
+        return ResponseEntity.ok(transactionDto);
     }
 }
