@@ -1,6 +1,7 @@
 package com.collins.banking.service.impl;
 
 import com.collins.banking.Dto.AccountDto;
+import com.collins.banking.Dto.TransferFundsDto;
 import com.collins.banking.entity.Account;
 import com.collins.banking.exceptions.AccountException;
 import com.collins.banking.mapper.AccountMapper;
@@ -74,5 +75,23 @@ public class AccountServiceImpl implements AccountService {
     public void deleteById(Long id){
         getAccountById(id);
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public void transferFunds(TransferFundsDto transferFundsDto){
+
+       AccountDto fromAccountDto = getAccountById(transferFundsDto.fromAccountId());
+       AccountDto toAccountDto = getAccountById(transferFundsDto.toAccountId());
+
+       Account fromAccount = AccountMapper.mapToAccount(fromAccountDto);
+       Account toAccount = AccountMapper.mapToAccount(toAccountDto);
+
+       fromAccount.setBalance(fromAccount.getBalance() - transferFundsDto.transferAmount());
+
+       toAccount.setBalance(toAccount.getBalance() + transferFundsDto.transferAmount());
+
+       accountRepository.save(fromAccount);
+
+       accountRepository.save(toAccount);
     }
 }

@@ -1,6 +1,7 @@
 package com.collins.banking.controller;
 
 import com.collins.banking.Dto.AccountDto;
+import com.collins.banking.Dto.TransferFundsDto;
 import com.collins.banking.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +58,11 @@ public class AccountController {
     public ResponseEntity<String> deleteAccount(@PathVariable Long id){
         accountService.deleteById(id);
         return ResponseEntity.ok("Account Successfully Deleted!");
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transferFunds(@RequestBody TransferFundsDto transferFundsDto){
+        accountService.transferFunds(transferFundsDto);
+        return ResponseEntity.ok("Transfer Successful");
     }
 }
